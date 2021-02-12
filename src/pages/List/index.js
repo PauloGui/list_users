@@ -80,6 +80,7 @@ const users = [
 
 const List = () => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [selectUser, setSelectUser] = useState([]);
   return (
     <SafeAreaView>
       <FlatList
@@ -94,6 +95,7 @@ const List = () => {
                 <Span>{item.email}</Span>
                 <Pressable
                   onPress={() => {
+                    setSelectUser(item);
                     setModalVisible(true);
                   }}>
                   <Text>Ver perfil</Text>
@@ -101,7 +103,7 @@ const List = () => {
               </ContainerText>
 
               <Modal
-                selectItem
+                selectUser
                 animationType="slide"
                 transparent={true}
                 visible={modalVisible}
@@ -112,21 +114,22 @@ const List = () => {
                 <ViewModal>
                   <CenteredView>
                     <ModalView>
-                      <ImageModal source={{uri: item.photo}} />
-                      <StrongModal>{item.name}</StrongModal>
-                      <SpanModal>{item.email}</SpanModal>
+                      <ImageModal source={{uri: selectUser.photo}} />
+                      <StrongModal>{selectUser.name}</StrongModal>
+                      <SpanModal>{selectUser.email}</SpanModal>
 
                       <TitleExp>Experiências:</TitleExp>
-                      {item.experiences.map((exp) => (
-                        <ExpModal key={exp.id_exp}>
-                          <TitleCia>{exp.company} </TitleCia>
-                          <TitleJob>- {exp.occupation}</TitleJob>
-                        </ExpModal>
-                      ))}
+                      {!!modalVisible &&
+                        selectUser.experiences.map((exp) => (
+                          <ExpModal key={exp.id_exp}>
+                            <TitleCia>{exp.company}</TitleCia>
+                            <TitleJob>- {exp.occupation}</TitleJob>
+                          </ExpModal>
+                        ))}
 
                       <PressableClose
                         onPress={() => {
-                          item.id_user = '';
+                          setSelectUser([]);
                           setModalVisible(!modalVisible);
                         }}>
                         <Span>Fechar</Span>

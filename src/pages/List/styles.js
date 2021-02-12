@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import {Pressable} from 'react-native';
 
 export const Card = styled.View`
   margin: 10px;
@@ -59,7 +60,7 @@ export const ModalView = styled.View`
   elevation: 5;
 `;
 
-export const PressableClose = styled.Pressable`
+export const PressableClose = styled(Pressable)`
   background-color: #2196f3;
   border-radius: 20px;
   padding: 10px;
